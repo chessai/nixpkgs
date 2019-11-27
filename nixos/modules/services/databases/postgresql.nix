@@ -318,7 +318,7 @@ in
           };
 
         # Wait for PostgreSQL to be ready to accept connections.
-        postStart =
+        postStart = let userName = "'${user.name}'"; in
           ''
             PSQL="${pkgs.sudo}/bin/sudo -u ${cfg.superUser} psql --port=${toString cfg.port}"
 
@@ -339,9 +339,9 @@ in
             '') cfg.ensureDatabases}
           '' + ''
             ${concatMapStrings (user: ''
-              $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname='${user.name}'" | grep -q 1 || $PSQL -tAc "CREATE USER '${user.name}'"
+              $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname=${userName}" | grep -q 1 || $PSQL -tAc "CREATE USER '${user.name}'"
               ${concatStringsSep "\n" (mapAttrsToList (database: permission: ''
-                $PSQL -tAc 'GRANT ${permission} ON ${database} TO '${user.name}\''
+                $PSQL -tAc 'GRANT ${permission} ON ${database} TO ${userName}'
               '') user.ensurePermissions)}
             '') cfg.ensureUsers}
           '';
