@@ -343,7 +343,7 @@ in
               in ''
                 $PSQL -tAc 'SELECT 1 FROM pg_roles WHERE rolname=${userName}' | grep -q 1 || $PSQL -tAc 'CREATE USER ${userName}'
                 ${concatStringsSep "\n" (mapAttrsToList (database: permission: ''
-                  $PSQL -tAc 'GRANT ${permission} ON ${database} TO ${userName}'
+                  $PSQL -tAc 'GRANT ${permission} ON "${database}" TO ${userName}'
                 '') user.ensurePermissions)}
               '') cfg.ensureUsers}
             '';
