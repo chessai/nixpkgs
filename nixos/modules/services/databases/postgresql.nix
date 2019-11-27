@@ -318,7 +318,7 @@ in
           };
 
         # Wait for PostgreSQL to be ready to accept connections.
-        postStart = let userName = "'${user.name}'"; in
+        postStart =
           ''
             PSQL="${pkgs.sudo}/bin/sudo -u ${cfg.superUser} psql --port=${toString cfg.port}"
 
@@ -338,13 +338,15 @@ in
               $PSQL -tAc "SELECT 1 FROM pg_database WHERE datname = '${database}'" | grep -q 1 || $PSQL -tAc 'CREATE DATABASE "${database}"'
             '') cfg.ensureDatabases}
           '' + ''
-            ${concatMapStrings (user: ''
-              $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname=${userName}" | grep -q 1 || $PSQL -tAc "CREATE USER '${user.name}'"
-              ${concatStringsSep "\n" (mapAttrsToList (database: permission: ''
-                $PSQL -tAc 'GRANT ${permission} ON ${database} TO ${userName}'
-              '') user.ensurePermissions)}
-            '') cfg.ensureUsers}
-          '';
+            ${concatMapStrings (user:
+              let userName = "'${user.name}'";
+              in ''
+                $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname=${userName}" | grep -q 1 || $PSQL -tAc "CREATE USER '${user.name}'"
+                ${concatStringsSep "\n" (mapAttrsToList (database: permission: ''
+                  $PSQL -tAc 'GRANT ${permission} ON ${database} TO ${userName}'
+                '') user.ensurePermissions)}
+              '') cfg.ensureUsers}
+            '';
 
         unitConfig.RequiresMountsFor = "${cfg.dataDir}";
       };
