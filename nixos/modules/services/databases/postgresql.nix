@@ -339,9 +339,9 @@ in
             '') cfg.ensureDatabases}
           '' + ''
             ${concatMapStrings (user:
-              let userName = "'${user.name}'";
+              let userName = "\"${user.name}\"";
               in ''
-                $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname=${userName}" | grep -q 1 || $PSQL -tAc "CREATE USER '${user.name}'"
+                $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname=${userName}" | grep -q 1 || $PSQL -tAc 'CREATE USER ${user.name}'
                 ${concatStringsSep "\n" (mapAttrsToList (database: permission: ''
                   $PSQL -tAc 'GRANT ${permission} ON ${database} TO ${userName}'
                 '') user.ensurePermissions)}
