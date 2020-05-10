@@ -2819,6 +2819,10 @@ in
 
   docear = callPackage ../applications/office/docear { };
 
+  tandem = callPackage ../applications/office/tandem {};
+
+  dubworld = callPackage ../applications/misc/dubworld { };
+
   dockbarx = callPackage ../applications/misc/dockbarx { };
 
   dog = callPackage ../tools/system/dog { };
@@ -23674,8 +23678,8 @@ in
 
   bftools = callPackage ../applications/science/biology/bftools { };
 
-  blast = callPackage ../applications/science/biology/blast { 
-    inherit (darwin.apple_sdk.frameworks) ApplicationServices; 
+  blast = callPackage ../applications/science/biology/blast {
+    inherit (darwin.apple_sdk.frameworks) ApplicationServices;
   };
 
   cd-hit = callPackage ../applications/science/biology/cd-hit { };
