@@ -4972,7 +4972,13 @@ in {
 
   mecab-python3 = callPackage ../development/python-modules/mecab-python3 { };
 
+  musdb = callPackage ../development/python-modules/musdb { };
+
+  museval = callPackage ../development/python-modules/museval { };
+
   mox3 = callPackage ../development/python-modules/mox3 { };
+
+  norbert = callPackage ../development/python-modules/norbert { };
 
   doc8 = callPackage ../development/python-modules/doc8 { };
 
@@ -6287,6 +6293,8 @@ in {
 
   sounddevice = callPackage ../development/python-modules/sounddevice { };
 
+  stempeg = callPackage ../development/python-modules/stempeg { };
+
   stevedore = callPackage ../development/python-modules/stevedore {};
 
   text-unidecode = callPackage ../development/python-modules/text-unidecode { };
@@ -6574,7 +6582,7 @@ in {
 
   zipp = if pythonOlder "3.6" then
     callPackage ../development/python-modules/zipp/1.nix { }
-  else 
+  else
     callPackage ../development/python-modules/zipp { };
 
   zope_broken = callPackage ../development/python-modules/zope_broken { };

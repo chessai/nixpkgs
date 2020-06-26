@@ -22112,6 +22112,19 @@ in
 
   spideroak = callPackage ../applications/networking/spideroak { };
 
+  spleeter = callPackage ../applications/audio/spleeter {
+    inherit (python3Packages)
+      buildPythonPackage
+      ffmpeg-python
+      librosa
+      musdb
+      museval
+      norbert
+      numba
+      pandas
+      requests;
+  };
+
   split2flac = callPackage ../applications/audio/split2flac { };
 
   spotify-tui = callPackage ../applications/audio/spotify-tui {

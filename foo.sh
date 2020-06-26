@@ -1,0 +1,2 @@
+lol=$FOO
+echo $lol
